@@ -16,3 +16,18 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified'
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
+});
+Route::get('auth/facebook',[\App\Http\Controllers\FacebookController::class,'redirectToFacebook'])->name('auth.facebook');
+Route::get('auth/callback',[\App\Http\Controllers\FacebookController::class,'facebookCallback']);
+
+
